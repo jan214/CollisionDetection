@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Homepage - Collision Detection - Jan Moritz</title>
+	<link rel="stylesheet" href="engine.css">
+</head>
+<body>
+	<div id="topleft">&nbsp;</div>
+	<div id="topmiddle">&nbsp;</div>
+	<div id="topright"><h1>Jan Moritz</h1></div>
+	<div id="middleleft">
+		<ul id="menu">
+			<li><a href="../index.html">Home</a></li>
+			<li><a href="../Modelling/3DModelling.html">3D Modelling</a></li>
+			<li><a href="../Games/Games.html">Games</a></li>
+			<li><a id="selected" href="../Engine/Engine.html">Collision Detection</a></li>
+			<li><a href="../AboutMe/AboutMe.html">About Me</a></li>
+			<li><a href="../Contact/Contact.html">Contact</a></li>
+		</ul>
+	</div>
+	<div id="middlemiddle">
+		<canvas id="canvas" width="400px" height="400px"></canvas>
+	</div>
+	<div id="middleright">
+		<div id="inputs">
+		square rotation: <input id="rotinput" type="number" name="rotation" min="0" max="360" step="1" value="20"/><a color="red">(range: 0-360)</a>
+		</br>
+		square size: <input id="siinput" type="number" name="rotation" min="0.1" max="1" step="0.1" value="0.1"/><a color="red">(range: 0.1-1)</a>
+		</div>
+	</div>
+	<div id="bottomleft">&nbsp;</div>
+	<div id="bottommiddleright">&nbsp;</div>
+	<div id="footer"><center>&#9400; Jan Moritz 2019</center></div>
+	<script src="collision.js"></script>
+	<script src="vector3.js"></script>
+	<script src="square.js"></script>
+	<script src="triangle.js"></script>
+	<script src="test.js"></script>
+</body>
