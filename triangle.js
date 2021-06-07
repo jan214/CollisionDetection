@@ -41,6 +41,7 @@ function Triangle(px,py,pz,psize){
 	size = psize;
 	colliding = false;
 
+	//calulate position of vertices
 	var points = new Float32Array([
 		position.x() - size, position.y(), 0.0,
 		position.x(), position.y() - size, 0.0,
@@ -52,6 +53,7 @@ function Triangle(px,py,pz,psize){
 	gl.bufferData(gl.ARRAY_BUFFER,points,gl.STATIC_DRAW);
 	gl.bindBuffer(gl.ARRAY_BUFFER,null);
 
+	//indices
 	var indices = new Uint16Array([0,1,2]);
 
 	indexBuffer = gl.createBuffer();
@@ -65,6 +67,7 @@ function Triangle(px,py,pz,psize){
 		-(points[7]-points[1]), points[6]-points[0], points[8]-points[2]
 		]);
 
+	//colors if no collision
 	var colors = new Float32Array([
 		0.0, 0.0, 1.0,
 		0.0, 0.0, 1.0,
@@ -76,12 +79,14 @@ function Triangle(px,py,pz,psize){
 	gl.bufferData(gl.ARRAY_BUFFER,colors,gl.STATIC_DRAW);
 	gl.bindBuffer(gl.ARRAY_BUFFER,null);
 
+	//colors if colliding
 	var collidingColors = new Float32Array([
 		1.0, 0.0, 0.0,
 		1.0, 0.0, 0.0,
 		1.0, 0.0, 0.0
 		]);
 
+	//min max boundaries for collision check
 	var min = new Array(normals.length/3);
 	var max = new Array(normals.length/3);
 
@@ -106,8 +111,6 @@ function Triangle(px,py,pz,psize){
 			}
 		}
 	}
-
-	console.log(" ");
 
 	this.setPosition = function(x,y,z){
 		position = new vector3(x,y,z);
@@ -142,8 +145,6 @@ function Triangle(px,py,pz,psize){
 				}
 			}
 		}
-
-		//console.log(" ");
 
 		vertexBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);
