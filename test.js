@@ -1,25 +1,16 @@
 const cvs = document.getElementById("canvas");
 const gl = cvs.getContext('webgl');
 
-/*var vertices = new Float32Array([
-   -0.5,0.5,0.0,
-   -0.5,-0.5,0.0,
-   0.5,-0.5,0.0,
-   0.5,0.5,0.0 
-]);
-
-var indices = new Uint16Array([3,2,1,3,1,0]);*/
-
 var collision = new Collision();
 
-//var square1 = new Square(1.0,0.0,0.0,0.25,0);
 var square2 = new Square(0.0,0.0,0.0,0.1,20);
 var triangle1 = new Triangle(-0.8,0.75,0.0,0.1,0);
 
 window.addEventListener("keydown", keydown);
-
+//for movement of the mouse over the canvas
 document.getElementById("canvas").addEventListener("mousemove",function(event){
 	function getMousePos(canvas, event) {
+		//get canvas boundaries
 		var rect = canvas.getBoundingClientRect();
 		return {
 			x: event.clientX - rect.left,
@@ -30,7 +21,7 @@ document.getElementById("canvas").addEventListener("mousemove",function(event){
 	var pos = getMousePos(canvas, event);
 	triangle1.setPosition(((pos.x/cvs.width)*2-1),(-((pos.y/cvs.height)*2-1))+triangle1.getSize()*0.2,triangle1.getPosition().z());
 });
-
+//for moving with keys instead of mouse
 function keydown(){
 	if(event.keyCode == 65){
 		console.log("A");
@@ -52,7 +43,7 @@ function keydown(){
 		triangle1.setPosition(triangle1.getPosition().x(),triangle1.getPosition().y()-0.01,triangle1.getPosition().z());
 	}
 }
-
+//for rotating
 document.getElementById("rotinput").addEventListener("change",function(){
 	if(document.getElementById("rotinput").value <= 360){
 		square2.setRotation(document.getElementById("rotinput").value);
@@ -68,7 +59,7 @@ document.getElementById("rotinput").addEventListener("change",function(){
 		square2.setRotation(0);
 	}
 });
-
+//for scaling
 document.getElementById("siinput").addEventListener("change",function(){
 	if(document.getElementById("siinput").value <= 1){
 		square2.setSize(document.getElementById("siinput").value);
@@ -85,23 +76,15 @@ document.getElementById("siinput").addEventListener("change",function(){
 	}
 });
 
-/*var vertexBuffer = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);
-gl.bufferData(gl.ARRAY_BUFFER,vertices,gl.STATIC_DRAW);
-gl.bindBuffer(gl.ARRAY_BUFFER,null);
-
-var indexBuffer = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);
-gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,null);*/
-
+//vertex shader code
 var verCode = "attribute vec3 aposition;"+
-			  "attribute vec3 acolor;"+
-			  "varying vec3 color;"+
-"void main(){"+
-"color = acolor;"+
-"gl_Position = vec4(aposition,1.0);"+
-"}";
+		"attribute vec3 acolor;"+
+		"varying vec3 color;"+
+		"void main(){"+
+		"color = acolor;"+
+		"gl_Position = vec4(aposition,1.0);"+
+		"}";
+
 
 var vertShader = gl.createShader(gl.VERTEX_SHADER);
 gl.shaderSource(vertShader,verCode);
@@ -111,6 +94,7 @@ if (!gl.getShaderParameter(vertShader, gl.COMPILE_STATUS)) {
     alert(gl.getShaderInfoLog(vertShader));
 }
 
+//fragment shader code
 var fragCode = 
 	"precision mediump float;"+
 	"varying vec3 color;"+
@@ -126,25 +110,20 @@ if (!gl.getShaderParameter(fragShader, gl.COMPILE_STATUS)) {
     alert(gl.getShaderInfoLog(fragShader));
 }
 
+
 var shaderProgram = gl.createProgram();
 gl.attachShader(shaderProgram,vertShader);
 gl.attachShader(shaderProgram,fragShader);
 gl.linkProgram(shaderProgram);
 gl.useProgram(shaderProgram);
 
-/*gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);*/
-
 function loop(){
+	//clear canvas and fill black
 	gl.clearColor(0.0,0.0,0.0,1.0);
 	gl.clear(gl.COLOR_BUFFER_BIT);
-
-	//collision.col(square2,triangle1);
-	//collision.col(square1,triangle1);
-	//console.log(triangle1.getPosition().y());
+	
 	collision.col(triangle1,square2);
-
-	//square1.draw();
+	
 	square2.draw();
 	triangle1.draw();
 	window.requestAnimationFrame(loop);
