@@ -18,7 +18,8 @@ function Square(px,py,pz,psize,protation){
 	size = psize;
 	rotation = protation;
 	colliding = false;
-
+	
+	//calculated points from center by angle
 	points = new Float32Array([
 		(position.x() - size)*Math.cos(rotation*Math.PI/180)-(position.y() + size)*Math.sin(rotation*Math.PI/180), (position.x() - size)*Math.sin(rotation*Math.PI/180)+(position.y() + size)*Math.cos(rotation*Math.PI/180), 0.0,
 		(position.x() - size)*Math.cos(rotation*Math.PI/180)-(position.y() - size)*Math.sin(rotation*Math.PI/180), (position.x() - size)*Math.sin(rotation*Math.PI/180)+(position.y() - size)*Math.cos(rotation*Math.PI/180), 0.0,
@@ -27,12 +28,13 @@ function Square(px,py,pz,psize,protation){
 		]);
 
 	console.log(points);
-
+	
 	vertexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER,points,gl.STATIC_DRAW);
 	gl.bindBuffer(gl.ARRAY_BUFFER,null);
 
+	//indices for webgl
 	var indices = new Uint16Array([0,1,2,0,2,3]);
 
 	indexBuffer = gl.createBuffer();
@@ -45,6 +47,7 @@ function Square(px,py,pz,psize,protation){
 		-(points[1]-points[4]), points[0]-points[3], points[2]-points[5]
 		]);
 
+	//color if no collision
 	var colors = new Float32Array([
 		0.0, 0.0, 1.0,
 		0.0, 0.0, 1.0,
@@ -57,6 +60,7 @@ function Square(px,py,pz,psize,protation){
 	gl.bufferData(gl.ARRAY_BUFFER,colors,gl.STATIC_DRAW);
 	gl.bindBuffer(gl.ARRAY_BUFFER,null);
 
+	//coller if collision
 	var collidingColors = new Float32Array([
 		1.0, 0.0, 0.0,
 		1.0, 0.0, 0.0,
@@ -64,6 +68,7 @@ function Square(px,py,pz,psize,protation){
 		1.0, 0.0, 0.0
 		]);
 
+	//min max boundary for collision check
 	var min = new Array(normals.length/3);
 	var max = new Array(normals.length/3);
 
