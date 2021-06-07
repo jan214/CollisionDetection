@@ -10,7 +10,7 @@ html,body{
 	color: white;
 	font-family: 'Raleway', sans-serif;
 }
-
+/*side menu*/
 #menu li{
 	margin: 2em 0;
 }
@@ -38,7 +38,7 @@ a:link{
 #selected{
 	color: white;
 }
-
+/*website layout*/
 #topleft{
 	position: relative;
 	display: block;
